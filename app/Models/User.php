@@ -47,6 +47,8 @@ class User extends Authenticatable
         ];
     }
 
+    
+
     public static function emailHasTaken($email) {
         $user = User::where("email", $email)->count();
         if($user > 0) {
