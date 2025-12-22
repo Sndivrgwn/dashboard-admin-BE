@@ -35,10 +35,10 @@ class TwoFactorOtpNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Kode OTP Login')
-            ->line('Gunakan kode berikut untuk melanjutkan login:')
+            ->subject('OTP Code Login')
+            ->line('Use this code to proceed login:')
             ->line("**{$this->otp}**")
-            ->line('Kode ini berlaku 10 menit. Jika bukan kamu, abaikan email ini.');
+            ->line('This code valid for 10 minutes. Ignore if its not you.');
     }
 
     /**
