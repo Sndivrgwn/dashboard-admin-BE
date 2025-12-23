@@ -13,7 +13,8 @@ class RegisterController extends Controller
 {
     public function register(Request $request) {
         $validated = Validator::make($request->all(), [
-            "name" => "required|string",
+            "first_name" => "required|string",
+            "last_name" => "required|string",
             "email" => "required|email",
             "password" => "required|min:8|string"
         ]);
@@ -31,7 +32,8 @@ class RegisterController extends Controller
         $password = Hash::make($data["password"]);
 
         $user = User::create([
-            "name" => $data["name"],
+            "first_name" => $data["first_name"],
+            "last_name" => $data["last_name"],
             "email" => $data["email"],
             "password" => $password
         ]);
