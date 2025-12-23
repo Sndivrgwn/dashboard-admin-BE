@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\user\EditUserController;
 use App\Http\Controllers\user\ForgorPassword;
 use App\Http\Controllers\user\GetUserController;
 use App\Http\Controllers\user\LoginController;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware("auth:sanctum")->get('/user', [GetUserController::class, "getUser"]);
 Route::post('/login', [LoginController::class, 'login']); //->middleware('throttle:10,1');
+Route::middleware("auth:sanctum")->patch('/user/update', [EditUserController::class, 'update']);
 Route::post('/2fa/verify', [VerifyOtpController::class, 'verifyOtp'])->middleware('throttle:10,1');
 Route::post('/2fa/resend', [ResendOtpController::class, 'resendOtp'])->middleware('throttle:5,1');
 Route::post('/register', [RegisterController::class, 'register']);
