@@ -19,9 +19,18 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'avatar',
+        'phone',
+        'bio',
+        'job_title',
+        'country',
+        'city_state',
+        'postal_code',
+        'tax_id',
     ];
 
     /**
@@ -46,6 +55,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    
 
     public static function emailHasTaken($email) {
         $user = User::where("email", $email)->count();
