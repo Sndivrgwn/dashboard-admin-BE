@@ -13,6 +13,20 @@ return new class extends Migration
     {
         Schema::create('product', function (Blueprint $table) {
             $table->id();
+            $table->string('image');
+            $table->string('name');
+            $table->string('color');
+            $table->decimal('weight_kg', 8, 2)->nullable();
+            $table->decimal('length_cm', 8, 2)->nullable();
+            $table->decimal('width_cm', 8, 2)->nullable();
+            $table->text('description')->nullable();
+            $table->decimal('price', 10, 2)->default(0);
+            $table->unsignedInteger('stock_quantity')->default(0);
+            $table->enum('availability_status', ['in_stock', 'out_of_stock', 'preorder']);
+            $table->enum('visibility', ['public', 'private', 'unlisted'])->default('public');
+            $table->enum('channel', ['online', 'offline'])->default('online');
+            $table->enum('status', ['draft', 'published', 'scheduled'])->default('draft');
+            $table->dateTime('scheduled_at')->nullable();
             $table->timestamps();
         });
     }

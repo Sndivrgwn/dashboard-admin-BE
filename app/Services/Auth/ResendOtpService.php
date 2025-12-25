@@ -19,12 +19,10 @@ class ResendOtpService
             return response()->json(['message' => 'Challenge has been used'], 400);
         }
 
-        // cooldown 60 detik
         if ($challenge->last_sent_at && $challenge->last_sent_at->gt(now()->subSeconds(60))) {
             return response()->json(['message' => 'Wait a minute before resend'], 429);
         }
 
-        // generate OTP baru + extend expiry
         $otp = (string) random_int(100000, 999999);
 
         $challenge->update([

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\brand\GetBrandController;
+use App\Http\Controllers\category\GetCategoryController;
 use App\Http\Controllers\user\EditUserController;
 use App\Http\Controllers\user\ForgorPassword;
 use App\Http\Controllers\user\GetUserController;
@@ -23,3 +25,7 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/forgot-password', [ForgorPassword::class, 'forgotPassword']);
 Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword']);
 Route::middleware("auth:sanctum")->post('/logout', [LogoutController::class, 'logout']);
+
+//brand
+Route::get('/brand', [GetBrandController::class, 'index']);
+Route::get('/category', [GetCategoryController::class, 'index']);
