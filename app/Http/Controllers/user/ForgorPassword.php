@@ -3,19 +3,23 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
+use App\Http\Requests\EmailRequest;
+use App\Services\Auth\ForgotPasswordService;
 
 class ForgorPassword extends Controller
 {
-    public function forgotPassword(Request $request)
+    public function __construct(private ForgotPasswordService $forgot_password_service)
     {
-        $request->validate(["email" => "required|email"]);
+    }
 
-        $status =  Password::sendResetLink($request->only("email"));
+    public function forgotPassword(EmailRequest $request)
+    {
+        $data = $request->validated();
 
-        return $status === Password::RESET_LINK_SENT 
-        ? response()->json(["message" => "Reset Link has sended"]) 
-        : response()->json(["message" => "Error email not found"], 400);
+        $res = $this->forgot_password_service->forgotPassword($data);
+
+        return $res === true 
+        ? response()->json(["message" => "reset password link has been sended"]) 
+        : $res;
     }
 }

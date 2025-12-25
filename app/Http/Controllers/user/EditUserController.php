@@ -3,103 +3,44 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\EditAvatarRequest;
+use App\Http\Requests\EditPasswordRequest;
+use App\Http\Requests\EditUserRequest;
+use App\Services\Auth\EditUserService;
 
 class EditUserController extends Controller
 {
-    public function update(Request $request)
+    public function __construct(private EditUserService $edit_user_service)
     {
-        $data = $request->validate([
-            "first_name" => "nullable|string",
-            "last_name" => "nullable|string",
-            "email" => "nullable|email",
-            "bio" => "nullable|string",
-            "phone" => "nullable|string|min:7|max:20",
-            "job_title" => "nullable|string",
-            "country" => "nullable|string",
-            "city_state" => "nullable|string",
-            "postal_code" => "nullable|string",
-            "tax_id" => "nullable|string",
-        ]);
+    }
 
-        $user = auth()->user();
+    public function update(EditUserRequest $request)
+    {
+        $data = $request->validated();
 
-        if(!$user) {
-            return response()->json([
-                "message" => "User not found"
-            ], 404);
-        }
-
-        $user->update($data);
-
-        $change = $user->getChanges();
+        $this->edit_user_service->Update($data);
 
         return response()->json([
             "message" => "User has successfuly updated!",
-            "user" => $change
         ]);
     }
 
-    public function updatePassword(Request $request)
+    public function updatePassword(EditPasswordRequest $request)
     {
-        $data = $request->validate([
-            "current_password" => "required",
-            "new_password" => "required|min:8|confirmed",
-        ]);
+        $data = $request->validated();
 
-        $user = auth()->user();
-
-        if (!$user) {
-            return response()->json([
-                "message" => "User not found"
-            ], 404);
-        }
-
-        if (!Hash::check($data["current_password"], $user->password)) {
-            return response()->json([
-                "message" => "Current password is incorrect"
-            ], 422);
-        }
-
-        if (Hash::check($data["new_password"], $user->password)) {
-            return response()->json([
-                "message" => "New password must be different from current password"
-            ], 422);
-        }
-
-        $user->password = Hash::make($data["new_password"]);
-        $user->save();
+        $this->edit_user_service->updatePassword($data);
 
         return response()->json([
             "message" => "Password updated successfully"
         ]);
     }
 
-    public function updateAvatar(Request $request)
+    public function updateAvatar(EditAvatarRequest $request)
     {
-        $data = $request->validate([
-            "avatar" => "required|image|max:2048",
-        ]);
+        $data = $request->validated();
 
-        $user = auth()->user();
-
-        if (!$user) {
-            return response()->json([
-                "message" => "User not found"
-            ], 404);
-        }
-
-        $avatarPath = $data["avatar"]->store("avatars", "public");
-
-        if (!empty($user->avatar)) {
-            Storage::disk("public")->delete($user->avatar);
-        }
-
-        $user->avatar = $avatarPath;
-        $user->save();
+        $avatarPath = $this->edit_user_service->updateAvatar($data);
 
         return response()->json([
             "message" => "Avatar updated successfully",
