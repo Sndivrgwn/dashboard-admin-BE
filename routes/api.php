@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\brand\GetBrandController;
 use App\Http\Controllers\category\GetCategoryController;
+use App\Http\Controllers\product\CreateProductController;
+use App\Http\Controllers\product\GetProductController;
 use App\Http\Controllers\user\EditUserController;
 use App\Http\Controllers\user\ForgorPassword;
 use App\Http\Controllers\user\GetUserController;
@@ -29,3 +31,5 @@ Route::middleware("auth:sanctum")->post('/logout', [LogoutController::class, 'lo
 //brand
 Route::get('/brand', [GetBrandController::class, 'index']);
 Route::get('/category', [GetCategoryController::class, 'index']);
+Route::middleware("auth:sanctum")->post('/product', [CreateProductController::class, 'create']);
+Route::middleware("auth:sanctum")->get('/product', [GetProductController::class, 'index']);

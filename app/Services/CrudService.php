@@ -14,4 +14,12 @@ class CrudService {
     protected function findAll($columns = ["*"]) {
         return $this->model->all($columns);
     }
+
+    protected function findAllWith(array $relations, $columns = ["*"]) {
+        return $this->model->with($relations)->get($columns);
+    }
+
+    protected function create(array $data) {
+        return $this->model->create($data);
+    }
 }

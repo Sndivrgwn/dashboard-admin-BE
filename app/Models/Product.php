@@ -29,6 +29,7 @@ class Product extends Model
         'channel',
         'status',
         'scheduled_at',
+        'SKU'
     ];
 
     protected $casts = [
