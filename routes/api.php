@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\brand\CreateBrandController;
 use App\Http\Controllers\brand\GetBrandController;
+use App\Http\Controllers\category\CreateCategoryController;
 use App\Http\Controllers\category\GetCategoryController;
 use App\Http\Controllers\product\CreateProductController;
 use App\Http\Controllers\product\GetProductController;
@@ -30,6 +32,8 @@ Route::middleware("auth:sanctum")->post('/logout', [LogoutController::class, 'lo
 
 //brand
 Route::get('/brand', [GetBrandController::class, 'index']);
+Route::middleware("auth:sanctum")->post('/brand', [CreateBrandController::class, 'create']);
 Route::get('/category', [GetCategoryController::class, 'index']);
+Route::middleware("auth:sanctum")->post('/category', [CreateCategoryController::class, 'create']);
 Route::middleware("auth:sanctum")->post('/product', [CreateProductController::class, 'create']);
 Route::middleware("auth:sanctum")->get('/product', [GetProductController::class, 'index']);

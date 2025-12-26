@@ -13,4 +13,9 @@ class BrandService extends CrudService {
     public function getAll() {
         return $this->findAll(["id", "name"]);
     }
+
+    public function create(array $data)
+    {
+        return parent::create($data);
+    }
 }

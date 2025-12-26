@@ -2,16 +2,10 @@
 
 namespace App\Http\Controllers\brand;
 
-use App\Http\Controllers\Controller;
-use App\Services\Brand\BrandService;
-
-class GetBrandController extends Controller
+class GetBrandController extends BrandController
 {
-    public function __construct(private BrandService $brand)
+    public function index()
     {
-    }
-
-    public function index() {
         $brand = $this->brand->getAll();
 
         return response()->json([

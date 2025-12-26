@@ -5,9 +5,8 @@ namespace App\Http\Controllers\category;
 use App\Http\Controllers\Controller;
 use App\Services\Category\CategoryService;
 
-class GetCategoryController extends Controller
+class GetCategoryController extends CategoryController
 {
-    public function __construct(private CategoryService $category) {}
 
     public function index() {
         $category = $this->category->getAll();
