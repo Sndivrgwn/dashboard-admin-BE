@@ -22,6 +22,10 @@ class ProductService extends CrudService
         }]);
     }
 
+    public function getById($id) {
+        return parent::findBy("id", $id);
+    }
+
     public function create(array $data)
     {
         $productImgPath = $data["image"]->store("product", "public");

@@ -37,3 +37,4 @@ Route::get('/category', [GetCategoryController::class, 'index']);
 Route::middleware("auth:sanctum")->post('/category', [CreateCategoryController::class, 'create']);
 Route::middleware("auth:sanctum")->post('/product', [CreateProductController::class, 'create']);
 Route::middleware("auth:sanctum")->get('/product', [GetProductController::class, 'index']);
+Route::middleware("auth:sanctum")->get('/product/{id}', [GetProductController::class, 'getById']);
