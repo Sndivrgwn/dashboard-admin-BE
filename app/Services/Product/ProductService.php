@@ -4,6 +4,7 @@ namespace App\Services\Product;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductImages;
 use App\Services\CrudService;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,6 +21,8 @@ class ProductService extends CrudService
             $query->select('id', 'name');
         }, 'category' => function ($query) {
             $query->select('id', 'name');
+        }, 'product_images' => function($query) {
+            $query->select("path", "product_id");
         }]);
     }
 
@@ -30,10 +33,21 @@ class ProductService extends CrudService
 
     public function create(array $data)
     {
-        $productImgPath = $data["image"]->store("product", "public");
-        $data["image"] = $productImgPath;
+        $productData = collect($data)->except("images")->toArray();
 
-        return parent::create($data);
+        $product = parent::create($productData);
+
+        if(isset($data["images"])) {
+            foreach($data["images"] as $image) {
+                $path = $image->store("product", "public");
+
+                $product->product_images()->create([
+                    "path" => $path
+                ]);
+            }
+        }
+
+        return $product;
     }
 
     public function up(array $data, $id)

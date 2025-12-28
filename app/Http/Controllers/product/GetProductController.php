@@ -26,6 +26,8 @@ class GetProductController extends Controller
             $query->select("id", "name");
         }, "category" => function ($query) {
             $query->select("id", "name");
+        }, "product_images" => function ($query) {
+            $query->select("product_id", "path");
         }])->first();
 
         if (!$product) {

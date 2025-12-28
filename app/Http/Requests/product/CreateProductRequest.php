@@ -24,7 +24,8 @@ class CreateProductRequest extends FormRequest
         return [
             "category_id" => "required|exists:category,id",
             "brand_id" => "required|exists:brand,id",
-            "image" => "required|image|max:2048",
+            'images'   => 'required|array|min:1|max:3',
+            "images.*" => "image|max:2048",
             "name" => "required|string",
             "color" => "required|string",
             "weight_kg" => "nullable|numeric|min:0",
