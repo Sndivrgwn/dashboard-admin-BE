@@ -11,7 +11,7 @@ class CreateProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user() ? true : false;
+        return auth()->check();
     }
 
     /**

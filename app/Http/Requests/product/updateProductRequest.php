@@ -37,7 +37,7 @@ class updateProductRequest extends FormRequest
             "visibility" => "nullable|in:public,private,unlisted",
             "channel" => "nullable|in:online,offline",
             "status" => "nullable|in:draft,published,scheduled",
-            "scheduled_at" => "nullable|date|nullable_if:status,scheduled",
+            "scheduled_at" => "nullable|date|required_if:status,scheduled",
             "SKU" => "nullable|string|unique:product,SKU",
         ];
     }

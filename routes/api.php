@@ -36,23 +36,30 @@ Route::post('/forgot-password', [ForgorPassword::class, 'forgotPassword']);
 Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword']);
 Route::middleware("auth:sanctum")->post('/logout', [LogoutController::class, 'logout']);
 
-//brand
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::prefix('product')->group(function () {
+        Route::get('/', [GetProductController::class, 'index']);
+        Route::post('/', [CreateProductController::class, 'create']);
+        Route::get('/{id}', [GetProductController::class, 'getById']);
+        Route::patch('/{id}', [UpdateProductController::class, 'update']);
+        Route::delete('/{id}', [DeleteProductController::class, 'delete']);
+    });
+
+    Route::prefix('brand')->group(function () {
+        Route::post('/', [CreateBrandController::class, 'create']);
+        Route::get('/{id}', [GetBrandController::class, 'getById']);
+        Route::patch('/{id}', [UpdateBrandController::class, 'update']);
+        Route::delete('/{id}', [DeleteBrandController::class, 'delete']);
+    });
+
+    Route::prefix('category')->group(function () {
+        Route::post('/', [CreateCategoryController::class, 'create']);
+        Route::get('/{id}', [GetCategoryController::class, 'getById']);
+        Route::patch('/{id}', [UpdateCategoryController::class, 'update']);
+        Route::delete('/{id}', [DeleteCategoryController::class, 'delete']);
+    });
+});
+
 Route::get('/brand', [GetBrandController::class, 'index']);
-Route::middleware("auth:sanctum")->post('/brand', [CreateBrandController::class, 'create']);
-Route::middleware("auth:sanctum")->get('/brand/{id}', [GetBrandController::class, 'getById']);
-Route::middleware("auth:sanctum")->patch('/brand/{id}', [updateBrandController::class, 'update']);
-Route::middleware("auth:sanctum")->delete('/brand/{id}', [deletebrandController::class, 'delete']);
-
-//category
 Route::get('/category', [GetCategoryController::class, 'index']);
-Route::middleware("auth:sanctum")->post('/category', [CreateCategoryController::class, 'create']);
-Route::middleware("auth:sanctum")->get('/category/{id}', [GetCategoryController::class, 'getById']);
-Route::middleware("auth:sanctum")->patch('/category/{id}', [updateCategoryController::class, 'update']);
-Route::middleware("auth:sanctum")->delete('/category/{id}', [deleteCategoryController::class, 'delete']);
-
-//product
-Route::middleware("auth:sanctum")->post('/product', [CreateProductController::class, 'create']);
-Route::middleware("auth:sanctum")->get('/product', [GetProductController::class, 'index']);
-Route::middleware("auth:sanctum")->get('/product/{id}', [GetProductController::class, 'getById']);
-Route::middleware("auth:sanctum")->patch('/product/{id}', [UpdateProductController::class, 'update']);
-Route::middleware("auth:sanctum")->delete('/product/{id}', [DeleteProductController::class, 'delete']);

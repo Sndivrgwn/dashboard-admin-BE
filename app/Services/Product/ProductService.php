@@ -16,14 +16,15 @@ class ProductService extends CrudService
 
     public function getAll()
     {
-        return parent::findAllWith(['brand' => function($query) {
+        return parent::findAllWith(['brand' => function ($query) {
             $query->select('id', 'name');
-        }, 'category' => function($query) {
+        }, 'category' => function ($query) {
             $query->select('id', 'name');
         }]);
     }
 
-    public function getById($id) {
+    public function getById($id)
+    {
         return parent::findBy("id", $id);
     }
 
@@ -39,14 +40,21 @@ class ProductService extends CrudService
     {
         $product = parent::findBy("id", $id)->first();
 
-        if (!empty($product->image)) {
-            Storage::disk("public")->delete($product->image);
+        if (isset($data["image"]) && $data["image"] instanceof \Illuminate\Http\UploadedFile) {
+            if (!empty($product->image)) {
+                Storage::disk("public")->delete($product->image);
+            }
+            $data["image"] = $data["image"]->store("product", "public");
+        } else {
+            unset($data["image"]);
         }
 
         return $product->update($data);
     }
 
-    public function del($id) {
+
+    public function del($id)
+    {
         return parent::delete($id);
     }
 }
