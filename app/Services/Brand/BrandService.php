@@ -14,8 +14,23 @@ class BrandService extends CrudService {
         return $this->findAll(["id", "name"]);
     }
 
+    public function getById($id) {
+        return $this->findBy("id", $id)->first();
+    }
+    
     public function create(array $data)
     {
         return parent::create($data);
+    }
+
+    public function up(array $data, $id)
+    {
+        $brand = parent::findBy("id", $id);
+
+        return $brand->update($data);
+    }
+
+    public function del($id) {
+        return parent::delete($id);
     }
 }

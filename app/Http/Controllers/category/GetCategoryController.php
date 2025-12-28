@@ -15,4 +15,11 @@ class GetCategoryController extends CategoryController
             "category" => $category
         ]);
     }
+
+    public function getById($id) {
+        return response()->json([
+            "message" => "category found!",
+            "category" => $this->category->getById($id)
+        ]);
+    }
 }

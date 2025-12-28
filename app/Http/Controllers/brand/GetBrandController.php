@@ -12,4 +12,11 @@ class GetBrandController extends BrandController
             "brand" => $brand
         ]);
     }
+
+    public function getById($id) {
+        return response()->json([
+            "message" => "brand found!",
+            "brand" => $this->brand->getById($id)
+        ]);
+    }
 }

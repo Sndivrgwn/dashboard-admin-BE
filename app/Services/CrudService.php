@@ -29,4 +29,14 @@ class CrudService {
     protected function create(array $data) {
         return $this->model->create($data);
     }
+
+    protected function update(array $data) {
+        return $this->model->update($data);
+    }
+
+    protected function delete($id) {
+        $m = $this->findBy("id", $id);
+
+        return $m->delete();
+    }
 }

@@ -11,20 +11,24 @@ use InvalidArgumentException;
 
 class GetProductController extends Controller
 {
-    public function __construct(private ProductService $product_service)
-    {
-    }
+    public function __construct(private ProductService $product_service) {}
 
-    public function index() {
+    public function index()
+    {
         return response()->json([
             "product" => $this->product_service->getAll()
         ]);
     }
 
-    public function getById($id) {
-        $product =  $this->product_service->getById($id)->with(["brand" => function($query){$query->select("id","name");}, "category" => function($query){$query->select("id", "name");}])->first();
+    public function getById($id)
+    {
+        $product =  $this->product_service->getById($id)->with(["brand" => function ($query) {
+            $query->select("id", "name");
+        }, "category" => function ($query) {
+            $query->select("id", "name");
+        }])->first();
 
-        if(!$product) {
+        if (!$product) {
             throw new NotFoundException("Product Not Found");
         }
 

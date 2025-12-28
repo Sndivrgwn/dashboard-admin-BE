@@ -15,8 +15,22 @@ class CategoryService extends CrudService {
         return $this->findAll(["id", "name"]);
     }
 
+    public function getById($id) {
+        return $this->findBy("id", $id)->first();
+    }
+
     public function create(array $data)
     {
         return parent::create($data);
+    }
+
+    public function up(array $data, $id) {
+        $cat = parent::findBy("id", $id)->first();
+
+        return $cat->update($data);
+    }
+
+    public function del($id) {
+        return parent::delete($id);
     }
 }

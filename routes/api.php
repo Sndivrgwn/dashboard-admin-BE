@@ -1,11 +1,17 @@
 <?php
 
 use App\Http\Controllers\brand\CreateBrandController;
+use App\Http\Controllers\brand\deletebrandController;
 use App\Http\Controllers\brand\GetBrandController;
+use App\Http\Controllers\brand\updateBrandController;
 use App\Http\Controllers\category\CreateCategoryController;
+use App\Http\Controllers\category\deleteCategoryController;
 use App\Http\Controllers\category\GetCategoryController;
+use App\Http\Controllers\category\updateCategoryController;
 use App\Http\Controllers\product\CreateProductController;
+use App\Http\Controllers\product\DeleteProductController;
 use App\Http\Controllers\product\GetProductController;
+use App\Http\Controllers\product\UpdateProductController;
 use App\Http\Controllers\user\EditUserController;
 use App\Http\Controllers\user\ForgorPassword;
 use App\Http\Controllers\user\GetUserController;
@@ -33,8 +39,20 @@ Route::middleware("auth:sanctum")->post('/logout', [LogoutController::class, 'lo
 //brand
 Route::get('/brand', [GetBrandController::class, 'index']);
 Route::middleware("auth:sanctum")->post('/brand', [CreateBrandController::class, 'create']);
+Route::middleware("auth:sanctum")->get('/brand/{id}', [GetBrandController::class, 'getById']);
+Route::middleware("auth:sanctum")->patch('/brand/{id}', [updateBrandController::class, 'update']);
+Route::middleware("auth:sanctum")->delete('/brand/{id}', [deletebrandController::class, 'delete']);
+
+//category
 Route::get('/category', [GetCategoryController::class, 'index']);
 Route::middleware("auth:sanctum")->post('/category', [CreateCategoryController::class, 'create']);
+Route::middleware("auth:sanctum")->get('/category/{id}', [GetCategoryController::class, 'getById']);
+Route::middleware("auth:sanctum")->patch('/category/{id}', [updateCategoryController::class, 'update']);
+Route::middleware("auth:sanctum")->delete('/category/{id}', [deleteCategoryController::class, 'delete']);
+
+//product
 Route::middleware("auth:sanctum")->post('/product', [CreateProductController::class, 'create']);
 Route::middleware("auth:sanctum")->get('/product', [GetProductController::class, 'index']);
 Route::middleware("auth:sanctum")->get('/product/{id}', [GetProductController::class, 'getById']);
+Route::middleware("auth:sanctum")->patch('/product/{id}', [UpdateProductController::class, 'update']);
+Route::middleware("auth:sanctum")->delete('/product/{id}', [DeleteProductController::class, 'delete']);

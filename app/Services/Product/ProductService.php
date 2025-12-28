@@ -5,6 +5,7 @@ namespace App\Services\Product;
 use App\Models\Category;
 use App\Models\Product;
 use App\Services\CrudService;
+use Illuminate\Support\Facades\Storage;
 
 class ProductService extends CrudService
 {
@@ -32,5 +33,20 @@ class ProductService extends CrudService
         $data["image"] = $productImgPath;
 
         return parent::create($data);
+    }
+
+    public function up(array $data, $id)
+    {
+        $product = parent::findBy("id", $id)->first();
+
+        if (!empty($product->image)) {
+            Storage::disk("public")->delete($product->image);
+        }
+
+        return $product->update($data);
+    }
+
+    public function del($id) {
+        return parent::delete($id);
     }
 }
