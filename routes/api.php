@@ -5,6 +5,7 @@ use App\Http\Controllers\brand\deletebrandController;
 use App\Http\Controllers\brand\GetBrandController;
 use App\Http\Controllers\brand\updateBrandController;
 use App\Http\Controllers\cart\CartController;
+use App\Http\Controllers\cart\CartItemsController;
 use App\Http\Controllers\category\CreateCategoryController;
 use App\Http\Controllers\category\deleteCategoryController;
 use App\Http\Controllers\category\GetCategoryController;
@@ -68,6 +69,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('/cart')->group(function () {
         Route::get('/', [CartController::class, "index"]);
+        Route::post('/items', [CartItemsController::class, "createCartItems"]);
+        Route::patch('/items/{id}', [CartItemsController::class, "update"]);
+        Route::delete('/items/{id}', [CartItemsController::class, "delete"]);
+
     });
 });
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\cart;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\cart\CartItemsRequest;
 use App\Services\Cart\CartService;
 
 class CartController extends Controller
@@ -14,4 +15,6 @@ class CartController extends Controller
             "message" => $this->cartService->getUserCart()->get()
         ]);
     }
+
+    
 }

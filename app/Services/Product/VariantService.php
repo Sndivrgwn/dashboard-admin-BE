@@ -37,7 +37,7 @@ class VariantService extends CrudService
         $formattedNumber = sprintf('%03d', $nextNumber);
 
         $data['sku'] = $productSkuPrefix . '-'. $val1. '-'. $val2 . '-'. $formattedNumber;
-
+ 
         return $this->model->create($data);
     }
 

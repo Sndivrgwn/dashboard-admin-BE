@@ -16,4 +16,6 @@ class CartService extends CrudService {
 
         return $this->model->with("cart_items")->where("user_id", $user->id);
     }
+
+    
 }
