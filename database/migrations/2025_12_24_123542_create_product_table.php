@@ -20,7 +20,6 @@ return new class extends Migration
             $table->decimal('length_cm', 8, 2)->nullable();
             $table->decimal('width_cm', 8, 2)->nullable();
             $table->text('description')->nullable();
-            $table->decimal('price', 10, 2)->default(0);
             $table->unsignedInteger('stock_quantity')->default(0);
             $table->enum('availability_status', ['in_stock', 'out_of_stock', 'preorder']);
             $table->enum('visibility', ['public', 'private', 'unlisted'])->default('public');

@@ -24,7 +24,7 @@ class ProductService extends CrudService
             $query->select('id', 'name');
         }, 'product_images' => function($query) {
             $query->select("path", "product_id");
-        }])->paginate(5);
+        }, 'variants'])->paginate(5);
     }
 
     public function getById($id)

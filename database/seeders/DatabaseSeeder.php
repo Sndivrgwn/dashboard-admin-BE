@@ -3,8 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Database\Seeders\BrandSeeder;
-use Database\Seeders\CategorySeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -28,6 +26,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             BrandSeeder::class,
             CategorySeeder::class,
+            ProductSeeder::class,
+            VariantSeeder::class,
+            CartSeeder::class,
+            CartItemSeeder::class,
         ]);
     }
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\brand\CreateBrandController;
 use App\Http\Controllers\brand\deletebrandController;
 use App\Http\Controllers\brand\GetBrandController;
 use App\Http\Controllers\brand\updateBrandController;
+use App\Http\Controllers\cart\CartController;
 use App\Http\Controllers\category\CreateCategoryController;
 use App\Http\Controllers\category\deleteCategoryController;
 use App\Http\Controllers\category\GetCategoryController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\product\CreateProductController;
 use App\Http\Controllers\product\DeleteProductController;
 use App\Http\Controllers\product\GetProductController;
 use App\Http\Controllers\product\UpdateProductController;
+use App\Http\Controllers\product\VariantController;
 use App\Http\Controllers\user\EditUserController;
 use App\Http\Controllers\user\ForgorPassword;
 use App\Http\Controllers\user\GetUserController;
@@ -25,6 +27,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("auth:sanctum")->get('/user', [GetUserController::class, "getUser"]);
+Route::middleware("auth:sanctum")->get('/user/{id}', [GetUserController::class, "getUserById"]);
 Route::post('/login', [LoginController::class, 'login']); //->middleware('throttle:10,1');
 Route::middleware("auth:sanctum")->patch('/user/update', [EditUserController::class, 'update']);
 Route::middleware("auth:sanctum")->post('/user/avatar', [EditUserController::class, 'updateAvatar']);
@@ -44,6 +47,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{id}', [GetProductController::class, 'getById']);
         Route::patch('/{id}', [UpdateProductController::class, 'update']);
         Route::delete('/{id}', [DeleteProductController::class, 'delete']);
+        Route::post('/variant', [VariantController::class, 'create']);
+        Route::patch('/variant/{id}', [VariantController::class, 'update']);
+        Route::delete('/variant/{id}', [VariantController::class, 'delete']);
     });
 
     Route::prefix('brand')->group(function () {
@@ -58,6 +64,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{id}', [GetCategoryController::class, 'getById']);
         Route::patch('/{id}', [UpdateCategoryController::class, 'update']);
         Route::delete('/{id}', [DeleteCategoryController::class, 'delete']);
+    });
+
+    Route::prefix('/cart')->group(function () {
+        Route::get('/', [CartController::class, "index"]);
     });
 });
 

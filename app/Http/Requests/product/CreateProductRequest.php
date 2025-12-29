@@ -39,7 +39,6 @@ class CreateProductRequest extends FormRequest
             "channel" => "required|in:online,offline",
             "status" => "required|in:draft,published,scheduled",
             "scheduled_at" => "nullable|date|required_if:status,scheduled",
-            "SKU" => "required|string|unique:product,SKU",
         ];
     }
 }

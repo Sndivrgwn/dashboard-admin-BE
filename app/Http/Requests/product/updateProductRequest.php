@@ -24,7 +24,8 @@ class updateProductRequest extends FormRequest
         return [
             "category_id" => "nullable|exists:category,id",
             "brand_id" => "nullable|exists:brand,id",
-            "image" => "nullable|image|max:2048",
+            'images'   => 'nullable|array|min:1|max:5',
+            "images.*" => "image|max:2048",
             "name" => "nullable|string",
             "color" => "nullable|string",
             "weight_kg" => "nullable|numeric|min:0",
@@ -38,7 +39,6 @@ class updateProductRequest extends FormRequest
             "channel" => "nullable|in:online,offline",
             "status" => "nullable|in:draft,published,scheduled",
             "scheduled_at" => "nullable|date|required_if:status,scheduled",
-            "SKU" => "nullable|string|unique:product,SKU",
         ];
     }
 }
