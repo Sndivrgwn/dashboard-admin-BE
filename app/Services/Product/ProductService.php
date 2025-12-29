@@ -18,13 +18,13 @@ class ProductService extends CrudService
 
     public function getAll()
     {
-        return parent::findAllWith(['brand' => function ($query) {
+        return $this->model->with(['brand' => function ($query) {
             $query->select('id', 'name');
         }, 'category' => function ($query) {
             $query->select('id', 'name');
         }, 'product_images' => function($query) {
             $query->select("path", "product_id");
-        }]);
+        }])->paginate(5);
     }
 
     public function getById($id)

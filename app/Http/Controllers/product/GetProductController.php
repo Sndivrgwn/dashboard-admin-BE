@@ -17,7 +17,7 @@ class GetProductController extends Controller
     {
         return response()->json([
             "product" => $this->product_service->getAll()
-        ]);
+        ], 200, [], JSON_UNESCAPED_SLASHES);
     }
 
     public function getById($id)
