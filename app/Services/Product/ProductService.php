@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImages;
 use App\Services\CrudService;
+use Exception;
 use Illuminate\Support\Facades\Storage;
 
 class ProductService extends CrudService
