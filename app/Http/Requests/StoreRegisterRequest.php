@@ -22,10 +22,11 @@ class StoreRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "first_name" => "required|string",
-            "last_name" => "required|string",
+            "name" => "required|string",
             "email" => "required|email",
-            "password" => "required|min:8|string"
+            "password_hash" => "required|min:8|string",
+            "phone" => "required|string",
+            "role_name" => "required|string"
         ];
     }
 }

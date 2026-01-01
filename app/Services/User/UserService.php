@@ -12,10 +12,16 @@ class UserService extends CrudService {
     }
 
     public function getAll() {
-        return $this->model->with(["cart" => function($query){$query->select("user_id", "status");}]);
+        return $this->model->with([
+            "cart" => function($query){$query->select("user_id", "status");},
+            "roles",
+        ])->get();
     }
 
     public function getById($id) {
-        return $this->model->with(["cart" => function($query){$query->select("user_id", "status");}])->where("id", $id);
+        return $this->model->with([
+            "cart" => function($query){$query->select("user_id", "status");},
+            "roles",
+        ])->find($id);
     }
 }

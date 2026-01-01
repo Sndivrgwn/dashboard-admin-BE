@@ -19,14 +19,20 @@ class GetUserController extends Controller
             ]);
         }
 
+        $user = $this->userService->getById($request->user()->id);
+
         return response()->json([
-            "user" => $this->userService->getAll()->get()
+            "user" => $user,
+            "role" => $user?->getRoleNames(),
         ]);
     }
 
     public function getUserById($id) {
+        $user = $this->userService->getById($id);
+
         return response()->json([
-            "user" => $this->userService->getById($id)->get()
+            "user" => $user,
+            "role" => $user?->getRoleNames(),
         ]);
     }
 }

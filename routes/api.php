@@ -28,7 +28,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("auth:sanctum")->get('/user', [GetUserController::class, "getUser"]);
-Route::middleware("auth:sanctum")->get('/user/{id}', [GetUserController::class, "getUserById"]);
+Route::middleware(["auth:sanctum", "role:admin"])->get('/user/{id}', [GetUserController::class, "getUserById"]);
 Route::post('/login', [LoginController::class, 'login']); //->middleware('throttle:10,1');
 Route::middleware("auth:sanctum")->patch('/user/update', [EditUserController::class, 'update']);
 Route::middleware("auth:sanctum")->post('/user/avatar', [EditUserController::class, 'updateAvatar']);
@@ -39,6 +39,7 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/forgot-password', [ForgorPassword::class, 'forgotPassword']);
 Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword']);
 Route::middleware("auth:sanctum")->post('/logout', [LogoutController::class, 'logout']);
+
 
 Route::middleware('auth:sanctum')->group(function () {
 

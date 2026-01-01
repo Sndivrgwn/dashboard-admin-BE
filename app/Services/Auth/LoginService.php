@@ -17,12 +17,11 @@ class LoginService
             throw new UserNotFoundException();
         }
 
-        if (!Hash::check($data["password"], $user->password)) {
+        if (!Hash::check($data["password_hash"], $user->password_hash)) {
             throw new InvalidCredentialException();
         }
 
         $token = $user->createToken('api')->plainTextToken;
-
         return [$token, $user];
     }
 }

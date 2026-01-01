@@ -7,6 +7,7 @@ use App\Models\Variant;
 use App\Services\CrudService;
 use Faker\Guesser\Name;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class VariantService extends CrudService
 {
@@ -17,28 +18,33 @@ class VariantService extends CrudService
 
     public function create(array $data)
     {
-        $product = Product::find($data["product_id"]);
-        $productName = strtoupper($product->name);
-        $productSkuPrefix = substr($productName, 0, 3); 
-        $val1 = strtoupper($data["option1_value"]);
-        $val2 = strtoupper($data["option2_value"]);
+        return DB::transaction(function() use($data){
+            $product = Product::findOrFail($data["product_id"]);
+            $productName = strtoupper($product->name);
+            $productSkuPrefix = substr($productName, 0, 3); 
+            $val1 = strtoupper($data["option1_value"]);
+            $val2 = strtoupper($data["option2_value"]);
+            
+            $prefix = $productSkuPrefix . '-'. $val1. '-'. $val2 . '-';
 
-        $lastEntry = $this->model->where('sku', 'like', $productSkuPrefix . '%')
-            ->orderBy('id', 'desc')
-            ->first();
-
-        if (!$lastEntry) {
-            $nextNumber = 1;
-        } else {
-            $lastNumber = substr($lastEntry->sku, -3);
-            $nextNumber = intval($lastNumber) + 1;
-        }
-
-        $formattedNumber = sprintf('%03d', $nextNumber);
-
-        $data['sku'] = $productSkuPrefix . '-'. $val1. '-'. $val2 . '-'. $formattedNumber;
- 
-        return $this->model->create($data);
+            $lastEntry = $this->model->where('sku', 'like', $prefix . '%')
+                ->orderBy('id', 'desc')
+                ->lockForUpdate()
+                ->first();
+    
+            if (!$lastEntry) {
+                $nextNumber = 1;
+            } else {
+                $lastNumber = substr($lastEntry->sku, -3);
+                $nextNumber = intval($lastNumber) + 1;
+            }
+    
+            $formattedNumber = sprintf('%03d', $nextNumber);
+    
+            $data['sku'] = $prefix . $formattedNumber;
+     
+            return $this->model->create($data);
+        });
     }
 
     public function up(array $data, $id)
