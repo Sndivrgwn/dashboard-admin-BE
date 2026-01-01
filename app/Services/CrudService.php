@@ -30,12 +30,12 @@ class CrudService {
         return $this->model->create($data);
     }
 
-    protected function update(array $data) {
-        return $this->model->update($data);
+    protected function update(array $data, $id) {
+        return $this->model->where("id", $id)->update($data);
     }
 
     protected function delete($id) {
-        $m = $this->findBy("id", $id);
+        $m = $this->model->where("id", $id)->firstOrfail();
 
         return $m->delete();
     }

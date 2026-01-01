@@ -15,6 +15,7 @@ use App\Http\Controllers\product\DeleteProductController;
 use App\Http\Controllers\product\GetProductController;
 use App\Http\Controllers\product\UpdateProductController;
 use App\Http\Controllers\product\VariantController;
+use App\Http\Controllers\user\AddressUserController;
 use App\Http\Controllers\user\EditUserController;
 use App\Http\Controllers\user\ForgorPassword;
 use App\Http\Controllers\user\GetUserController;
@@ -27,12 +28,26 @@ use App\Http\Controllers\user\VerifyOtpController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware("auth:sanctum")->get('/user', [GetUserController::class, "getUser"]);
-Route::middleware(["auth:sanctum", "role:admin"])->get('/user/{id}', [GetUserController::class, "getUserById"]);
+Route::middleware("auth:sanctum")->group(function() {
+    Route::prefix('/user')->group(function() {
+        Route::get('/', [GetUserController::class, "getUser"]);
+        Route::prefix('/address')->group(function() {
+            Route::get('/', [AddressUserController::class, "index"]);
+            Route::post('/create', [AddressUserController::class, "create"]);
+            Route::patch('/update/{id}', [AddressUserController::class, "update"]);
+            Route::delete('/delete/{id}', [AddressUserController::class, "delete"]);
+        });
+        Route::patch('/update', [EditUserController::class, 'update']);
+        Route::patch('/password', [EditUserController::class, 'updatePassword']);
+        
+        Route::middleware("role:admin")->group(function() {
+            Route::get('/{id}', [GetUserController::class, "getUserById"]);
+        });
+    });
+});
+
 Route::post('/login', [LoginController::class, 'login']); //->middleware('throttle:10,1');
-Route::middleware("auth:sanctum")->patch('/user/update', [EditUserController::class, 'update']);
-Route::middleware("auth:sanctum")->post('/user/avatar', [EditUserController::class, 'updateAvatar']);
-Route::middleware("auth:sanctum")->patch('/user/password', [EditUserController::class, 'updatePassword']);
+Route::post('/user/avatar', [EditUserController::class, 'updateAvatar']);
 Route::post('/2fa/verify', [VerifyOtpController::class, 'verifyOtp'])->middleware('throttle:10,1');
 Route::post('/2fa/resend', [ResendOtpController::class, 'resendOtp'])->middleware('throttle:5,1');
 Route::post('/register', [RegisterController::class, 'register']);
