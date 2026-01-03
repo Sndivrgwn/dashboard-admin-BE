@@ -13,6 +13,7 @@ use App\Http\Controllers\category\updateCategoryController;
 use App\Http\Controllers\product\CreateProductController;
 use App\Http\Controllers\product\DeleteProductController;
 use App\Http\Controllers\product\GetProductController;
+use App\Http\Controllers\product\InventoryController;
 use App\Http\Controllers\product\UpdateProductController;
 use App\Http\Controllers\product\VariantController;
 use App\Http\Controllers\user\AddressUserController;
@@ -64,9 +65,17 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{id}', [GetProductController::class, 'getById']);
         Route::patch('/{id}', [UpdateProductController::class, 'update']);
         Route::delete('/{id}', [DeleteProductController::class, 'delete']);
-        Route::post('/variant', [VariantController::class, 'create']);
-        Route::patch('/variant/{id}', [VariantController::class, 'update']);
-        Route::delete('/variant/{id}', [VariantController::class, 'delete']);
+        Route::prefix('/variant')->group(function() {
+            Route::post('/variant', [VariantController::class, 'create']);
+            Route::patch('/variant/{id}', [VariantController::class, 'update']);
+            Route::delete('/variant/{id}', [VariantController::class, 'delete']);
+        });
+        Route::prefix('/inventory')->group(function() {
+            Route::get('/{id}', [InventoryController::class, "getById"]);
+            Route::post('/create', [InventoryController::class, "create"]);
+            Route::patch('/update', [InventoryController::class, "update"]);
+            Route::delete('/delete', [InventoryController::class, "delete"]);
+        });
     });
 
     Route::prefix('brand')->group(function () {

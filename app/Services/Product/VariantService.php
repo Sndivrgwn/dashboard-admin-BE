@@ -2,6 +2,7 @@
 
 namespace App\Services\Product;
 
+use App\Models\Inventories;
 use App\Models\Product;
 use App\Models\Variant;
 use App\Services\CrudService;
