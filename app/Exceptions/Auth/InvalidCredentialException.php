@@ -3,11 +3,12 @@
 namespace App\Exceptions\Auth;
 
 use Exception;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
-class InvalidCredentialException extends Exception {
-    public function __construct(string $message = "Invalid Credentials", int $code = 401, Throwable|null $previous = null)
+class InvalidCredentialException extends HttpException {
+    public function __construct()
     {
-        return parent::__construct($message, $code, $previous);
+        parent::__construct(401, 'Invalid credentials');
     }
 }

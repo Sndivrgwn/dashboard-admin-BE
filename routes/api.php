@@ -29,6 +29,11 @@ use App\Http\Controllers\user\VerifyOtpController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
+Route::get('/', function() {
+    return "ok";
+});
+
 Route::middleware("auth:sanctum")->group(function() {
     Route::prefix('/user')->group(function() {
         Route::get('/', [GetUserController::class, "getUser"]);

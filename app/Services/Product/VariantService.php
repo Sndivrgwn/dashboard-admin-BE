@@ -19,32 +19,41 @@ class VariantService extends CrudService
 
     public function create(array $data)
     {
-        return DB::transaction(function() use($data){
+        return DB::transaction(function () use ($data) {
             $product = Product::findOrFail($data["product_id"]);
             $productName = strtoupper($product->name);
-            $productSkuPrefix = substr($productName, 0, 3); 
+            $productSkuPrefix = substr($productName, 0, 3);
             $val1 = strtoupper($data["option1_value"]);
             $val2 = strtoupper($data["option2_value"]);
-            
-            $prefix = $productSkuPrefix . '-'. $val1. '-'. $val2 . '-';
+
+            $prefix = $productSkuPrefix . '-' . $val1 . '-' . $val2 . '-';
 
             $lastEntry = $this->model->where('sku', 'like', $prefix . '%')
                 ->orderBy('id', 'desc')
                 ->lockForUpdate()
                 ->first();
-    
+
             if (!$lastEntry) {
                 $nextNumber = 1;
             } else {
                 $lastNumber = substr($lastEntry->sku, -3);
                 $nextNumber = intval($lastNumber) + 1;
             }
-    
+
             $formattedNumber = sprintf('%03d', $nextNumber);
-    
+
             $data['sku'] = $prefix . $formattedNumber;
-     
-            return $this->model->create($data);
+
+            $variant = $this->model->create($data);
+
+            Inventories::create([
+                "variant_id" => $variant->id,
+                "stock_on_hand" => 1,
+                "stock_reserved" => 1,
+                "low_stock_threshold" => 1,
+            ]);
+
+            return $variant;
         });
     }
 
