@@ -4,7 +4,6 @@ namespace Tests\Feature\order;
 
 use App\Services\order\OrderService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Date;
 use Tests\TestCase;
 
